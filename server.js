@@ -32,7 +32,7 @@ const generationConfig = {
   responseMimeType: 'text/plain',
 };
 let conversationHistory = [];
-
+let SavedScheduleData = [];
 // POST endpoint: ramification-calculator
 app.post('/ramification-calculator', async (req, res) => {
   try {
@@ -82,6 +82,28 @@ try {
     .status(500)
     .send({ error: 'An error occurred while processing your request.' });
 }
+});
+app.post('/save-data', async (req, res) => {
+  try {
+      const { data } = req.body;
+      SavedScheduleData = data;
+      res.status(200).send({ result: "Data Saved!" });
+  } catch (error) {
+      console.error(error);
+      res
+      .status(500)
+      .send({ error: 'An error occurred while processing your request.' });
+  }
+});
+app.get('/get-data', async (req, res) => {
+  try {
+      res.status(200).send({ result: SavedScheduleData});
+  } catch (error) {
+      console.error(error);
+      res
+      .status(500)
+      .send({ error: 'An error occurred while processing your request.' });
+  }
 });
 
 // Start your server on a specified port or default to 3000
